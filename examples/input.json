@@ -1,0 +1,12 @@
+{
+  "hotelUrls": [
+    "https://www.agoda.com/bayswater-inn-hotel/hotel/london-gb.html"
+  ],
+  "maxReviews": 100,
+  "sortBy": "newest",
+  "minRating": 1,
+  "maxRating": 10,
+  "reviewSources": ["agoda"],
+  "languages": [],
+  "proxyConfiguration": { "useApifyProxy": true }
+}
