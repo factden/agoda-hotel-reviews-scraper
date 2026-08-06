@@ -9,6 +9,10 @@ This repo is the **developer entry point** for the Agoda Hotel Reviews Scraper a
 
 **▶ [Run it on Apify →](https://apify.com/factden/agoda-hotel-reviews-scraper?fpr=factden)**
 
+**Watch the walkthrough:**
+
+[![Agoda Hotel Reviews Scraper demo](https://img.youtube.com/vi/zSUbguMJiIg/maxresdefault.jpg)](https://www.youtube.com/watch?v=zSUbguMJiIg)
+
 <p align="center">
   <a href="https://apify.com/factden/agoda-hotel-reviews-scraper?fpr=factden" rel="sponsored noopener">
     <img src="https://raw.githubusercontent.com/factden/apify-actor-assets/main/agoda-hotel-reviews-scraper/02-reviews-overview.png" alt="Agoda Hotel Reviews Scraper — one structured row per guest review" width="900">
