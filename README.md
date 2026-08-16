@@ -109,6 +109,7 @@ Pay‑per‑event on Apify: a **per‑review fee with no per‑run start fee** �
 
 ## Other scrapers by FactDen
 
+- [MCA India Company & Director Data Scraper](https://apify.com/factden/mca-company-director-scraper?fpr=factden) - India MCA company master + directors' personal email & phone
 - [Expedia Reviews Scraper](https://apify.com/factden/expedia-hotel-reviews-scraper?fpr=factden)
   ([docs](https://github.com/factden/expedia-hotel-reviews-scraper))
 - [Hotels.com Reviews Scraper](https://apify.com/factden/hotels-com-reviews-scraper?fpr=factden)
