@@ -5,7 +5,7 @@ has one row per public guest review, with the hotel context merged onto each row
 per hotel with the aggregate. Scores are on Agoda's native **0–10 scale**. Fields a given review doesn't provide are
 `null` (or an empty array).
 
-In **Prices** mode (`mode: "prices"`) the actor instead writes the **Offers** dataset — one row per hotel per
+In **Prices** mode (`mode: "prices"`) the actor instead writes the **Offers** dataset: one row per hotel per
 check-in date (see [Offers dataset](#offers-dataset-prices-mode) below).
 
 ## Reviews dataset
@@ -75,11 +75,49 @@ delivered (and billed) just like an available date.
 | `nights` / `rooms` / `adults` / `children` | integer | The booking party. |
 | `available` | boolean | True if ≥1 room was bookable; false = sold out / no inventory (data flag only - every returned hotel-date is billed). |
 | `soldOut` | boolean | True when the date is sold out / has no inventory. |
-| `leadPerNight` / `leadTotal` | number \| null | Lowest per-night / total price across rooms. |
-| `roomCount` | integer | Number of bookable room entries returned. |
-| `offers` | array \| null | One entry per room type: `typeId`, `roomName`, `roomSize`, `bedType`, `maxOccupancy`, `perNight`, `total`, `strikethrough`, `currency`, `breakfastIncluded`, `inventorySource`, `roomsLeft`, and `ratePlans[]` (`ratePlanName`, `total`, `refundable`, `freeCancellationUntil`, `paymentModel`, `breakfastIncluded`, `supplier`). `tax` / `fees` / `totalInclusive` are reserved and currently `null`. |
+| `leadPerNight` / `leadTotal` | number \| null | Lowest per-night / total price across rooms (quick-scan lead price). |
+| `roomCount` | integer | Number of bookable room entries returned (length of `offers`). |
+| `offers` | array \| null | One entry per bookable room type, each with its own rate plans. See [Offer item](#offers-item-one-room-type) below. |
 | `scrapedAt` | string | When the row was scraped (UTC ISO 8601). |
 | `markdownContent` | string \| null | LLM-ready summary of this hotel-date's prices. |
+
+### `offers[]` item (one room type)
+
+Note: Agoda's per-room data is an `offers[]` array (one entry per room type), not a `rooms[]` array.
+
+| Field | Type | Description |
+|---|---|---|
+| `typeId` | string \| null | Agoda room-type id. |
+| `roomName` | string \| null | Room-type name (e.g. "Double Room", "Twin Room"). |
+| `roomSize` | string \| null | Room size as shown by Agoda (e.g. "18 m²"), when available. |
+| `bedType` | string \| null | Bed configuration (e.g. "1 double bed"). |
+| `maxOccupancy` | string \| null | Max guests the room sleeps, as shown by Agoda. |
+| `perNight` | number \| null | Lead per-night price for this room type (total / nights). |
+| `total` | number \| null | Lead total stay price for this room type. |
+| `strikethrough` | number \| null | Was-price (crossed-out original) when higher than `total`. |
+| `currency` | string \| null | ISO currency of this room's prices (matches the row `currency`). |
+| `tax` | number \| null | Reserved. The room grid does not itemize tax, so this is currently `null`. |
+| `fees` | number \| null | Reserved. Not itemized by the room grid; currently `null`. |
+| `totalInclusive` | number \| null | Reserved (tax/fee-inclusive total); currently `null`. |
+| `breakfastIncluded` | boolean \| null | True when the lead rate for this room includes breakfast. |
+| `inventorySource` | string \| null | Supplier/inventory source for the room (e.g. "Agoda"), when identifiable. |
+| `roomsLeft` | integer \| null | Scarcity: rooms left at this price, when Agoda surfaces it. |
+| `ratePlans` | array \| null | The bookable rate plans for this room type. See [Rate plan](#offersrateplans-item-one-rate-plan) below. |
+
+### `offers[].ratePlans[]` item (one rate plan)
+
+| Field | Type | Description |
+|---|---|---|
+| `ratePlanId` | string \| null | Agoda rate-plan id. |
+| `ratePlanName` | string \| null | Rate-plan label (e.g. "Breakfast included"), when named. |
+| `perNight` | number \| null | Per-night price for this rate plan (total / nights). |
+| `total` | number \| null | Total stay price for this rate plan. |
+| `strikethrough` | number \| null | Was-price for this rate plan, when higher than `total`. |
+| `refundable` | boolean \| null | True if the rate plan is refundable / has free cancellation. |
+| `freeCancellationUntil` | string \| null | Free-cancellation deadline, when the plan is refundable. |
+| `paymentModel` | string \| null | `pay-now` vs `pay-later` (pay at hotel), when identifiable. |
+| `breakfastIncluded` | boolean \| null | True when this rate plan includes breakfast. |
+| `supplier` | string \| null | Inventory supplier for this rate plan, when identifiable. |
 
 ## Dataset views
 
@@ -87,3 +125,9 @@ The Reviews dataset ships two pre-built views you can switch between in the Cons
 
 - **Overview** — the columns most users want first (hotel, reviewer, score, review text, owner response, stay).
 - **AI ingest (LLM-ready)** — `markdownContent` plus score, hotel and source — optimized for vector-DB / RAG loading.
+
+The Offers dataset (Prices mode) ships two views:
+
+- **Overview** - one row per hotel per check-in date with the lead price, room count and availability.
+- **Prices (per room)** - each room type unwound into its own flat row (room, per-night, total, breakfast, bed,
+  max guests, inventory source, rooms-left).

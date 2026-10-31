@@ -1,0 +1,121 @@
+[
+  {
+    "hotelId": 11019,
+    "hotelName": "Park Avenue Bayswater Inn Hyde Park",
+    "hotelUrl": "https://www.agoda.com/bayswater-inn-hotel/hotel/london-gb.html",
+    "cityId": 4064,
+    "currency": "USD",
+    "market": "en-us",
+    "checkInDate": "2026-12-01",
+    "checkOutDate": "2026-12-02",
+    "nights": 1,
+    "rooms": 1,
+    "adults": 2,
+    "children": 0,
+    "available": true,
+    "soldOut": false,
+    "leadPerNight": 137.0,
+    "leadTotal": 137.0,
+    "roomCount": 2,
+    "offers": [
+      {
+        "typeId": "208701952",
+        "roomName": "Double Room",
+        "roomSize": "15 m²",
+        "bedType": "1 double bed",
+        "maxOccupancy": "2 adults",
+        "perNight": 137.0,
+        "total": 137.0,
+        "strikethrough": 162.0,
+        "currency": "USD",
+        "tax": null,
+        "fees": null,
+        "totalInclusive": null,
+        "breakfastIncluded": false,
+        "inventorySource": "Agoda",
+        "roomsLeft": 3,
+        "ratePlans": [
+          {
+            "ratePlanId": "r-nonref",
+            "ratePlanName": null,
+            "perNight": 137.0,
+            "total": 137.0,
+            "strikethrough": 162.0,
+            "refundable": false,
+            "freeCancellationUntil": null,
+            "paymentModel": "pay-now",
+            "breakfastIncluded": false,
+            "supplier": "Agoda"
+          },
+          {
+            "ratePlanId": "r-flex",
+            "ratePlanName": "Free cancellation",
+            "perNight": 154.0,
+            "total": 154.0,
+            "strikethrough": null,
+            "refundable": true,
+            "freeCancellationUntil": "2026-11-29",
+            "paymentModel": "pay-later",
+            "breakfastIncluded": false,
+            "supplier": "Agoda"
+          }
+        ]
+      },
+      {
+        "typeId": "208701977",
+        "roomName": "Twin Room with Breakfast",
+        "roomSize": "16 m²",
+        "bedType": "2 single beds",
+        "maxOccupancy": "2 adults",
+        "perNight": 171.0,
+        "total": 171.0,
+        "strikethrough": null,
+        "currency": "USD",
+        "tax": null,
+        "fees": null,
+        "totalInclusive": null,
+        "breakfastIncluded": true,
+        "inventorySource": "Agoda",
+        "roomsLeft": null,
+        "ratePlans": [
+          {
+            "ratePlanId": "r-bb",
+            "ratePlanName": "Breakfast included",
+            "perNight": 171.0,
+            "total": 171.0,
+            "strikethrough": null,
+            "refundable": false,
+            "freeCancellationUntil": null,
+            "paymentModel": "pay-now",
+            "breakfastIncluded": true,
+            "supplier": "Agoda"
+          }
+        ]
+      }
+    ],
+    "scrapedAt": "2026-10-31T09:12:44Z",
+    "markdownContent": "# Park Avenue Bayswater Inn Hyde Park - prices (USD)\n\n**Stay:** 2026-12-01 to 2026-12-02 (1 night), 1 room, 2 adults\n**Availability:** available\n**From:** 137.0 USD/night\n\n## Rooms\n- Double Room - 137.0 USD total (was 162.0); 3 left\n- Twin Room with Breakfast - 171.0 USD total; breakfast included"
+  },
+  {
+    "hotelId": 11019,
+    "hotelName": "Park Avenue Bayswater Inn Hyde Park",
+    "hotelUrl": "https://www.agoda.com/bayswater-inn-hotel/hotel/london-gb.html",
+    "cityId": 4064,
+    "currency": "USD",
+    "market": "en-us",
+    "checkInDate": "2026-12-02",
+    "checkOutDate": "2026-12-03",
+    "nights": 1,
+    "rooms": 1,
+    "adults": 2,
+    "children": 0,
+    "available": false,
+    "soldOut": true,
+    "leadPerNight": null,
+    "leadTotal": null,
+    "roomCount": 0,
+    "offers": [],
+    "scrapedAt": "2026-10-31T09:12:45Z",
+    "markdownContent": "# Park Avenue Bayswater Inn Hyde Park - prices (USD)\n\n**Stay:** 2026-12-02 to 2026-12-03 (1 night), 1 room, 2 adults\n**Availability:** sold out\n\nNo rooms were bookable for this date."
+  }
+]

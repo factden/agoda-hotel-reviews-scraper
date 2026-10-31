@@ -1,0 +1,13 @@
+{
+  "mode": "prices",
+  "hotelUrls": [
+    "https://www.agoda.com/bayswater-inn-hotel/hotel/london-gb.html"
+  ],
+  "checkInDate": "2026-12-01",
+  "nights": 1,
+  "rooms": 1,
+  "adults": 2,
+  "childrenAges": [],
+  "currency": "USD",
+  "proxyConfiguration": { "useApifyProxy": true }
+}

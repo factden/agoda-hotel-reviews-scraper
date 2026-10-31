@@ -2,6 +2,9 @@
 
 > Scrape **Agoda hotel reviews** at scale — guest **scores** (/10), full **original + translated review text**, **liked/disliked** notes, **reviewer country**, **traveler type**, **stay dates**, **review photos**, and **hotel owner responses** — plus a per‑review **LLM‑ready markdown** block. Filter by **date, score, source, or any of Agoda's 33 review languages**. Runs on [Apify](https://apify.com/factden/agoda-hotel-reviews-scraper?fpr=factden).
 
+> One actor, two jobs: **Reviews + Prices**. Switch to **Prices mode** for **live room rates, per‑room rate
+> plans, and availability by date** in 24 currencies, with one billable row per hotel per check‑in date.
+
 [![Run on Apify](https://img.shields.io/badge/Run%20on-Apify-00b04f?logo=apify&logoColor=white)](https://apify.com/factden/agoda-hotel-reviews-scraper?fpr=factden)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
@@ -78,18 +81,67 @@ Every field is documented in **[`FIELDS.md`](./FIELDS.md)**. Scores are on Agoda
 
 ---
 
+## Prices mode: room rates & availability by date
+
+Set **Mode** to `prices` (`"mode": "prices"`) to pull **live room rates and availability** for the same hotels
+instead of reviews. You get **one row per hotel per check-in date** in the `offers` dataset, with **one entry per
+room type** (not a `rooms[]` array). Each room entry carries its **per-night and total price**, **strikethrough**
+(was-price), **breakfast** flag, **bed type / max occupancy**, **inventory source**, **rooms-left** scarcity, and a
+list of **rate plans** (pay-now vs pay-at-hotel, refundable vs non-refundable, free-cancellation deadline).
+
+How to scrape Agoda prices:
+
+1. Switch **Mode** to **Prices**.
+2. Paste the same **Hotel URLs or IDs** (one per line).
+3. Set the stay: **Check-in date**, **Nights**, and the booking party (**Rooms / Adults / Children ages**).
+4. Pick a **Currency** (one of 24, USD default). The currency is set in the request, so the proxy country does not
+   change it, and one run returns one currency.
+5. (Optional) Set a **Price window end** plus a **Price window step** to price every check-in across a date range
+   (one row per date) for rate and availability tracking. Step `1` is daily, `7` is weekly and cheaper.
+6. Click **Start**, then export the `offers` dataset as **JSON, CSV, Excel, or HTML**, or pull it from the API.
+
+A sold-out date is still returned as a row with `"available": false`. A checked date with no inventory is a real
+result, delivered alongside the available dates. Ready-to-run input: [`examples/prices-input.json`](./examples/prices-input.json).
+Sample output: [`examples/offers-output.sample.json`](./examples/offers-output.sample.json). Full field reference:
+[FIELDS.md → Offers dataset](./FIELDS.md#offers-dataset-prices-mode).
+
+```json
+{
+  "mode": "prices",
+  "hotelUrls": ["https://www.agoda.com/bayswater-inn-hotel/hotel/london-gb.html"],
+  "checkInDate": "2026-12-01",
+  "nights": 1,
+  "currency": "USD"
+}
+```
+
+**Reviews mode is unchanged:** existing review runs and their inputs keep working exactly as before.
+
+---
+
 ## Use cases
 
 - **Reputation & sentiment analysis** — track scores and guest sentiment for your own or competitor hotels.
 - **Competitor benchmarking** — review volume, scores, and per‑source ratings per property.
 - **Market research** — break reviews down by traveler type, reviewer country, and language.
 - **AI / RAG pipelines** — drop each review's `markdownContent` straight into a vector DB.
+- **Rate & availability tracking** (Prices mode) - monitor room prices, rate plans and sold-out dates across a
+  date window, in any of 24 currencies.
 
 ---
 
 ## How much does it cost?
 
-Pay‑per‑event on Apify: a **per‑review fee with no per‑run start fee** — and **nothing** if a run returns zero reviews. Lower **Max reviews per hotel** to cap cost. New Apify accounts get **free credit**. See the [actor page](https://apify.com/factden/agoda-hotel-reviews-scraper?fpr=factden) for current pricing.
+Pay‑per‑event on Apify. Lower **Max reviews per hotel** (reviews) or use a wider **Price window step** (prices) to
+cap cost. New Apify accounts get **free credit**.
+
+- **Reviews mode:** a per‑review fee, charged only on reviews actually returned, plus a small **$0.005 run start
+  fee** (effective November 14, 2026).
+- **Prices mode:** a per‑priced‑hotel‑date fee (one hotel × check‑in date), around **$0.005** on the free tier and
+  less on paid tiers. **Sold‑out dates are billed too**, because a checked, no‑inventory date is a real result.
+
+See the [actor page](https://apify.com/factden/agoda-hotel-reviews-scraper?fpr=factden) for current, tier-by-tier
+pricing.
 
 ---
 
@@ -102,6 +154,10 @@ Pay‑per‑event on Apify: a **per‑review fee with no per‑run start fee** �
 **Do I need an Agoda account or API key?** No. Everything runs inside the actor on Apify's infrastructure — no login, no key, no proxy setup.
 
 **Can I get reviews in a specific language?** Yes — select one or more of Agoda's 33 review languages; the actor fetches a stream per language and merges + de‑duplicates them.
+
+**Can I get room prices and availability, not just reviews?** Yes. Set **Mode** to **Prices** to get live room
+rates, per‑room rate plans and availability by date (one row per hotel per check‑in date) in 24 currencies. See
+[Prices mode](#prices-mode-room-rates--availability-by-date) above.
 
 **A URL didn't resolve.** Agoda sometimes relists a hotel under a new URL. Open the hotel on agoda.com and paste its current URL, or use the numeric hotel ID.
 
