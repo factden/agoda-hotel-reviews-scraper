@@ -61,7 +61,8 @@ One row per hotel (the aggregate). Starts with the same hotel context (`hotelId`
 ## Offers dataset (Prices mode)
 
 In Prices mode (`mode: "prices"`) the actor writes one row per **hotel × check-in date** to the `offers` dataset.
-A sold-out date is kept as a row with `available: false` and is **free** (only dates with live rooms are billed).
+A sold-out date is kept as a row with `available: false` - a checked date with no inventory is a real result,
+delivered (and billed) just like an available date.
 
 | Field | Type | Description |
 |---|---|---|
@@ -72,7 +73,7 @@ A sold-out date is kept as a row with `available: false` and is **free** (only d
 | `market` | string \| null | Content locale the prices were read with. |
 | `checkInDate` / `checkOutDate` | string | Stay dates (`YYYY-MM-DD`). |
 | `nights` / `rooms` / `adults` / `children` | integer | The booking party. |
-| `available` | boolean | True if ≥1 room was bookable (billable); false = sold out (free). |
+| `available` | boolean | True if ≥1 room was bookable; false = sold out / no inventory (data flag only - every returned hotel-date is billed). |
 | `soldOut` | boolean | True when the date is sold out / has no inventory. |
 | `leadPerNight` / `leadTotal` | number \| null | Lowest per-night / total price across rooms. |
 | `roomCount` | integer | Number of bookable room entries returned. |
