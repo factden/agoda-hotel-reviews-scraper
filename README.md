@@ -28,6 +28,8 @@ Point it at any Agoda hotel URL (or a bare numeric hotel ID) and get two structu
 - **Reviews** — one row per guest review: the overall **/10 score**, the word **rating label**, full **review text** (original + translated), separate **liked / disliked** notes, **reviewer country**, **traveler type**, **room type**, **stay dates**, **length of stay**, **review photos**, any **hotel owner response**, and an LLM‑ready `markdownContent` block.
 - **Hotels** — one summary row per hotel: property type, star rating, full address, coordinates, the Agoda score, total review count, and **per‑source scores** (Agoda, Booking.com, …).
 
+Or switch to **Prices mode** (`mode: "prices"`) to get **live room rates & availability by date** instead — one row per hotel per check-in date with room-wise rate plans, inventory supplier, breakfast/cancellation flags and scarcity, in 24 currencies. See [FIELDS.md](FIELDS.md#offers-dataset-prices-mode).
+
 ### Two things worth knowing
 
 🗣️ **Reviews in any of Agoda's 33 languages** — leave it empty for one combined all‑languages stream, or select specific languages and the actor fetches a dedicated stream per language and **merges + de‑duplicates** them for you.

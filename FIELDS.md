@@ -1,9 +1,12 @@
 # Output fields
 
-The Agoda Hotel Reviews Scraper produces **two datasets**. The **Reviews** dataset (the default) has one row per
-public guest review, with the hotel context merged onto each row. The **Hotels** dataset has one row per hotel with
-the aggregate. Scores are on Agoda's native **0–10 scale**. Fields a given review doesn't provide are `null` (or an
-empty array).
+In **Reviews** mode the Agoda Hotel Reviews Scraper produces **two datasets**. The **Reviews** dataset (the default)
+has one row per public guest review, with the hotel context merged onto each row. The **Hotels** dataset has one row
+per hotel with the aggregate. Scores are on Agoda's native **0–10 scale**. Fields a given review doesn't provide are
+`null` (or an empty array).
+
+In **Prices** mode (`mode: "prices"`) the actor instead writes the **Offers** dataset — one row per hotel per
+check-in date (see [Offers dataset](#offers-dataset-prices-mode) below).
 
 ## Reviews dataset
 
@@ -54,6 +57,28 @@ One row per hotel (the aggregate). Starts with the same hotel context (`hotelId`
 | `providerScores` | array \| null | Per-source `{ providerId, source, score, reviewCount, maxScore }`. |
 | `reviewsExtracted` | integer | How many reviews this run actually delivered for the hotel. |
 | `extractedAt` | string | When the hotel row was scraped (UTC ISO 8601). |
+
+## Offers dataset (Prices mode)
+
+In Prices mode (`mode: "prices"`) the actor writes one row per **hotel × check-in date** to the `offers` dataset.
+A sold-out date is kept as a row with `available: false` and is **free** (only dates with live rooms are billed).
+
+| Field | Type | Description |
+|---|---|---|
+| `hotelId` | integer | Agoda hotel id. |
+| `hotelName` / `hotelUrl` | string \| null | Hotel name / the URL that produced this row. |
+| `cityId` | integer \| null | Agoda city id for the property. |
+| `currency` | string \| null | ISO currency of the prices in this row (set by the `currency` input). |
+| `market` | string \| null | Content locale the prices were read with. |
+| `checkInDate` / `checkOutDate` | string | Stay dates (`YYYY-MM-DD`). |
+| `nights` / `rooms` / `adults` / `children` | integer | The booking party. |
+| `available` | boolean | True if ≥1 room was bookable (billable); false = sold out (free). |
+| `soldOut` | boolean | True when the date is sold out / has no inventory. |
+| `leadPerNight` / `leadTotal` | number \| null | Lowest per-night / total price across rooms. |
+| `roomCount` | integer | Number of bookable room entries returned. |
+| `offers` | array \| null | One entry per room type: `typeId`, `roomName`, `roomSize`, `bedType`, `maxOccupancy`, `perNight`, `total`, `strikethrough`, `currency`, `breakfastIncluded`, `inventorySource`, `roomsLeft`, and `ratePlans[]` (`ratePlanName`, `total`, `refundable`, `freeCancellationUntil`, `paymentModel`, `breakfastIncluded`, `supplier`). `tax` / `fees` / `totalInclusive` are reserved and currently `null`. |
+| `scrapedAt` | string | When the row was scraped (UTC ISO 8601). |
+| `markdownContent` | string \| null | LLM-ready summary of this hotel-date's prices. |
 
 ## Dataset views
 
