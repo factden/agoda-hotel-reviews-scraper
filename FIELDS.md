@@ -117,7 +117,9 @@ Note: Agoda's per-room data is an `offers[]` array (one entry per room type), no
 | `freeCancellationUntil` | string \| null | Free-cancellation deadline, when the plan is refundable. |
 | `paymentModel` | string \| null | `pay-now` vs `pay-later` (pay at hotel), when identifiable. |
 | `breakfastIncluded` | boolean \| null | True when this rate plan includes breakfast. |
-| `supplier` | string \| null | Inventory supplier for this rate plan, when identifiable. |
+| `supplierId` | integer \| null | Numeric inventory-supplier id for this rate plan (e.g. `332` = Agoda). Best-effort: Agoda returns supplier data intermittently, so this is null on some rows. |
+| `supplier` | string \| null | Friendly inventory-supplier label (e.g. "Agoda"), derived from `supplierId`. Null when supplier data is not returned. |
+| `rateChannelId` | integer \| null | Numeric rate-channel id for this rate plan, when returned. |
 
 ## Dataset views
 
