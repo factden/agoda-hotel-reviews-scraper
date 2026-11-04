@@ -96,11 +96,10 @@ Note: Agoda's per-room data is an `offers[]` array (one entry per room type), no
 | `total` | number \| null | Lead total stay price for this room type. |
 | `strikethrough` | number \| null | Was-price (crossed-out original) when higher than `total`. |
 | `currency` | string \| null | ISO currency of this room's prices (matches the row `currency`). |
-| `tax` | number \| null | Reserved. The room grid does not itemize tax, so this is currently `null`. |
-| `fees` | number \| null | Reserved. Not itemized by the room grid; currently `null`. |
-| `totalInclusive` | number \| null | Reserved (tax/fee-inclusive total); currently `null`. |
 | `breakfastIncluded` | boolean \| null | True when the lead rate for this room includes breakfast. |
-| `inventorySource` | string \| null | Supplier/inventory source for the room (e.g. "Agoda"), when identifiable. |
+| `supplierId` | integer \| null | Numeric supplier id for the room (e.g. `332` = Agoda). Best-effort; null when not returned. |
+| `inventorySource` | string \| null | Supplier label for the room (e.g. "Agoda"). Best-effort; null when not returned. |
+| `rateChannelId` | integer \| null | Numeric rate-channel id for the room, when returned. |
 | `roomsLeft` | integer \| null | Scarcity: rooms left at this price, when Agoda surfaces it. |
 | `ratePlans` | array \| null | The bookable rate plans for this room type. See [Rate plan](#offersrateplans-item-one-rate-plan) below. |
 
